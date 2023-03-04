@@ -1,10 +1,17 @@
 //import 'dart:js';
-
+import 'package:break_bread/profile/numberediting.dart';
+import 'package:break_bread/profile/profileuserdata.dart';
+import 'package:break_bread/profile/sampledata.dart';
+import 'package:break_bread/profile/slider.dart';
+import 'package:break_bread/profile/textediting.dart';
+import 'package:flutter/material.dart';
 import 'package:break_bread/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:break_bread/homepage/info.dart';
+
+import '../profile/numberediting.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -110,14 +117,41 @@ class _HomePage extends State<HomePage> {
     //ADD MATH FUNCTION TO SUM UP BILL TOTALS
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+        ),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => buildPopupAdd(),
+          );
+        },
+      ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 162, 96, 20),
         toolbarHeight: MediaQuery.of(context).size.height / 5,
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(20),
-            child: Icon(
-              Icons.person_2_outlined,
+            padding: EdgeInsets.only(right: 20),
+            child: Expanded(
+              child: IconButton(
+                tooltip: "Access Your Profile!",
+                iconSize: 40,
+                icon: const Center(
+                  child: Icon(
+                    Icons.person_2_outlined,
+                  ),
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        buildPopupDialog(context),
+                  );
+                },
+              ),
             ),
           )
         ],
@@ -145,7 +179,9 @@ class _HomePage extends State<HomePage> {
               child: Column(children: [
                 Text(
                   'Breaking Bread',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 235, 214, 191)),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 235, 214, 191)),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -167,9 +203,9 @@ class _HomePage extends State<HomePage> {
           ),
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(0),
-        width: double.maxFinite,
+        //width: double.maxFinite,
         child: ListView.separated(
             shrinkWrap: true,
             padding: const EdgeInsets.all(20),
@@ -352,7 +388,7 @@ class _HomePage extends State<HomePage> {
                     child: Icon(Icons.close),
                   ),
                   //Icon(Icons.close_outlined),
-                  onTap: ()async {
+                  onTap: () async {
                     //delete posts function
                     _auth.signOut();
                   },
@@ -362,4 +398,173 @@ class _HomePage extends State<HomePage> {
       ),
     );
   }
+
+  Widget buildPopupAdd() {
+    return AlertDialog(
+      backgroundColor: Color.fromARGB(255, 228, 194, 155),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            20.0,
+          ),
+        ),
+      ),
+      contentPadding: const EdgeInsets.only(
+        top: 25.0,
+        right: 25.0,
+        left: 25.0,
+      ),
+      content: Container(
+        height: (650),
+        width: (300),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              TextFieldWidget(
+                label: 'Item',
+                maxLines: 3,
+              ),
+              const SizedBox(height: 20),
+              TextNumberWidget(
+                label: 'Total',
+                maxLines: 1,
+              ),
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'How Many People: ',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 162, 96, 20)),
+                ),
+              ),
+              SliderExample(),
+              TextFieldWidget(
+                label: 'Due',
+                maxLines: 1,
+              ),
+              const SizedBox(height: 20),
+              /*SearchInput(
+            label: 'Split With',
+            maxLines: 1,
+          ),*/
+              TextFieldWidget(
+                label: 'Split With: ',
+                maxLines: 1,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                child: Text('Add'),
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    primary: Color.fromARGB(255, 162, 96, 20),
+                    onPrimary: Color.fromARGB(255, 235, 214, 191),
+                    textStyle: const TextStyle(fontSize: 24)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  Widget buildPopupDialog(BuildContext context) {
+   ProfileUserData user = SampleData.myUser;
+   return AlertDialog(
+     backgroundColor: Color.fromARGB(255, 228, 194, 155),
+     shape: const RoundedRectangleBorder(
+      
+       borderRadius: BorderRadius.all(
+         Radius.circular(
+           20.0,
+         ),
+       ),
+     ),
+     contentPadding: const EdgeInsets.only(
+       top: 30.0,
+       right: 30.0,
+       left: 30.0,
+     ),
+     content: Container(
+       height: 400,
+       child: Column(
+         children: [
+         const Text(
+           'Profile',
+           style: TextStyle(fontWeight: FontWeight.bold, fontSize:30, color: Color.fromARGB(255, 162, 96, 20)),
+           textAlign: TextAlign.right,
+           ),
+         const SizedBox(height: 20),
+         buildImage (user),
+         buildProfile(user),
+         const SizedBox(height: 20),
+         ElevatedButton(
+           child: Text('Sign Out'),
+           onPressed: () {
+
+
+           },
+           style: ElevatedButton.styleFrom(
+             shape: RoundedRectangleBorder(
+               borderRadius: BorderRadius.circular(12),
+              
+             ),
+             textStyle: const TextStyle(fontSize: 24),
+             primary: Color.fromARGB(255, 162, 96, 20),
+             onPrimary:Color.fromARGB(255, 235, 214, 191)
+           ),
+         ),
+         ],
+       ),
+     ),
+   );
+ }
+  Widget buildProfile(ProfileUserData user) => Container (
+   child: Column(
+     crossAxisAlignment: CrossAxisAlignment.start,
+     children: [
+       const SizedBox(height: 40),
+       Text(
+         user.name,
+         style: const TextStyle(fontWeight: FontWeight.bold, fontSize:20,color: Color.fromARGB(255, 162, 96, 20)),
+       ),
+      const SizedBox(height: 16),
+     SafeArea(
+       child: Text(
+         'Email: ${user.email}',
+         overflow: TextOverflow.clip,
+         maxLines: 3,
+         style: const TextStyle(fontSize:18,color: Color.fromARGB(255, 162, 96, 20)),
+       ),
+     ),
+     ],
+   ),
+ );
+
+
+Widget buildImage(ProfileUserData user){
+   final image = NetworkImage (user.imagePath);
+   const Text(
+     'Profile',
+     style: TextStyle(fontWeight: FontWeight.bold, fontSize:24),
+   );
+   return ClipOval(
+     child:Material(
+       color: Colors.transparent,
+       child: Ink.image(
+         image: image,
+         fit: BoxFit.cover,
+         width: 150,
+         height: 150,
+       ),
+     ),
+   );
+ }
+
+
 }
