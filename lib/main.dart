@@ -1,12 +1,9 @@
 
-import 'package:break_bread/constants.dart';
 import 'package:break_bread/homepage/homepage.dart';
 import 'package:break_bread/screens/welcome/login_screen.dart';
 
-import 'package:break_bread/dataBaseTest.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
@@ -23,7 +20,8 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.amber,
+          primaryColor: Colors.amberAccent,
         ),
           home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
