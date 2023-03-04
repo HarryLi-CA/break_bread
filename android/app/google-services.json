@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "487428375668",
+    "project_id": "breakbread-1634d",
+    "storage_bucket": "breakbread-1634d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487428375668:android:a567d0e88224f222d9bd21",
+        "android_client_info": {
+          "package_name": "com.example.break_bread"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487428375668-al751cj699vlt0h8i116ctagh6u74sj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUUiJk6NwIjbIb3HMb1-LK3ddQVkGjv4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487428375668-al751cj699vlt0h8i116ctagh6u74sj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
