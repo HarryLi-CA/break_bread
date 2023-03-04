@@ -24,21 +24,25 @@ class _BodyState extends State<Body> {
     var child;
     return Scaffold(
       // ignore: prefer_typing_uninitialized_variables
-      backgroundColor: const Color.fromARGB(0, 252, 247, 212),
+      backgroundColor: const Color.fromARGB(255, 235, 214, 191),
       body: SafeArea(
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
               const Text(
                 'Welcome to BreakingBread!',
+                
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 28,
                 ),
               ),
               const SizedBox(height: 12),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20)
+              ),
               const Text(
                 'Login to Break Bread.',
                 style: TextStyle(
@@ -95,13 +99,15 @@ class _BodyState extends State<Body> {
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                  fixedSize: const Size.fromWidth(180),
+                  backgroundColor: const Color.fromARGB(255, 162, 96, 20),
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(22),
                     side: const BorderSide(color: Color.fromARGB(0, 238, 153, 64)),
                   ),
                 ),
+                
                 onPressed: () async {
                     setState(()=> loading = true);
                     dynamic result = await _auth.signInGoogle();
