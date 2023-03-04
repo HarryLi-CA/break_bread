@@ -27,7 +27,7 @@ class MainApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, snapshot) {
             if(snapshot.hasData|| isMac){
-              return HomePage();
+              return HomePage(snapshot.data!.email!);
             }
             return LoginScreen();
           }
