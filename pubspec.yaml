@@ -8,8 +8,11 @@ environment:
 
 dependencies:
   firebase_core: ^2.7.0
+  cupertino_icons: ^1.0.5
+
   flutter:
     sdk: flutter
+
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +21,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets: 
+    -  assets/images/bbreadpng.png 
+  
