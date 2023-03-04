@@ -1,4 +1,7 @@
 
+import 'package:break_bread/constants.dart';
+import 'package:break_bread/screens/welcome/login_screen.dart';
+
 import 'package:break_bread/dataBaseTest.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,13 +18,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: DataBaseTest(),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'BreakingBread',
+      theme: ThemeData(
+        primaryColor: kPrimaryColor,
+        scaffoldBackgroundColor: const Color.fromRGBO(248, 204, 153, 1),
       ),
-    );
+      home: LoginScreen(),
+
+        );
+    
   }
 }
