@@ -1,12 +1,23 @@
 // ignore: unused_import
 import 'dart:io';
 
+import 'package:break_bread/services/auth.dart';
 import 'package:flutter/material.dart';
 
 import 'background.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({super.key});
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  final AuthService _auth = AuthService();
+  bool loading = false;
+  
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +99,14 @@ class Body extends StatelessWidget {
                     side: const BorderSide(color: Color.fromARGB(0, 238, 153, 64)),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                    setState(()=> loading = true);
+                    dynamic result = await _auth.signInGoogle();
+                    if (result == null){
+                        error = 'Please Supply Valid Email';
+                        loading = false;
+                    }
+                  },
                 child: const Center(
                   child: Text(
                     'LOGIN',
@@ -98,6 +116,10 @@ class Body extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
+              ),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red),
               ),
             ],
           ),
