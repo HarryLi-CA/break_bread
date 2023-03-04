@@ -1,5 +1,5 @@
 //import 'dart:js';
-import 'package:break_bread/profile/numberediting.dart';
+import 'package:break_bread/profile/numberingediting.dart';
 import 'package:break_bread/profile/profileuserdata.dart';
 import 'package:break_bread/profile/sampledata.dart';
 import 'package:break_bread/profile/slider.dart';
@@ -18,10 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/databaseService.dart';
 
-import '../profile/numberediting.dart';
-
 class HomePage extends StatefulWidget {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  AuthService _auth = AuthService();
   late DatabaseService dbService;
   
   String userEmail;
@@ -454,39 +453,48 @@ class _HomePage extends State<HomePage> {
      ),
      content: Container(
        height: 400,
-       child: Column(
-         children: [
-         const Text(
-           'Profile',
-           style: TextStyle(fontWeight: FontWeight.bold, fontSize:30, color: Color.fromARGB(255, 162, 96, 20)),
-           textAlign: TextAlign.right,
-           ),
-         const SizedBox(height: 20),
-         buildImage (user),
-         buildProfile(user),
-         const SizedBox(height: 20),
-         ElevatedButton(
-           child: Text('Sign Out'),
-           onPressed: () {
-
-
-           },
-           style: ElevatedButton.styleFrom(
-             shape: RoundedRectangleBorder(
-               borderRadius: BorderRadius.circular(12),
-              
+       child: StreamBuilder(
+         stream: FirebaseFirestore.instance.collection('Users').doc(widget.userEmail).snapshots(),
+         builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+          UserData userData = UserData.fromJson(snapshot.data!.data()!);
+           return Column(
+             children: [
+             const Text(
+               'Profile',
+               style: TextStyle(fontWeight: FontWeight.bold, fontSize:30, color: Color.fromARGB(255, 162, 96, 20)),
+               textAlign: TextAlign.right,
+               ),
+             const SizedBox(height: 20),
+             buildImage (userData.profilePicURL),
+             buildProfile(userData),
+             const SizedBox(height: 20),
+             ElevatedButton(
+               child: Text('Sign Out'),
+               onPressed: () {
+                  _auth.signOut();
+                  Navigator.pop(context);
+               },
+               style: ElevatedButton.styleFrom(
+                 shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(12),
+                  
+                 ),
+                 textStyle: const TextStyle(fontSize: 24),
+                 primary: Color.fromARGB(255, 162, 96, 20),
+                 onPrimary:Color.fromARGB(255, 235, 214, 191)
+               ),
              ),
-             textStyle: const TextStyle(fontSize: 24),
-             primary: Color.fromARGB(255, 162, 96, 20),
-             onPrimary:Color.fromARGB(255, 235, 214, 191)
-           ),
-         ),
-         ],
+             ],
+           );
+         }
        ),
      ),
    );
  }
-  Widget buildProfile(ProfileUserData user) => Container (
+  Widget buildProfile(UserData user) => Container (
    child: Column(
      crossAxisAlignment: CrossAxisAlignment.start,
      children: [
@@ -509,8 +517,8 @@ class _HomePage extends State<HomePage> {
  );
 
 
-Widget buildImage(ProfileUserData user){
-   final image = NetworkImage (user.imagePath);
+Widget buildImage(String imagePath){
+   final image = NetworkImage (imagePath);
    const Text(
      'Profile',
      style: TextStyle(fontWeight: FontWeight.bold, fontSize:24),
