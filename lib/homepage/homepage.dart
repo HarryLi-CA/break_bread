@@ -1,5 +1,6 @@
 //import 'dart:js';
 
+import 'package:break_bread/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -32,6 +33,7 @@ class Info {
 }
 
 class _HomePage extends State<HomePage> {
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     //object
@@ -350,8 +352,10 @@ class _HomePage extends State<HomePage> {
                     child: Icon(Icons.close),
                   ),
                   //Icon(Icons.close_outlined),
-                  onTap: () {
+                  onTap: () async{
                     //delete posts function
+
+                    _auth.signOut();
                   },
                 )),
           ],
