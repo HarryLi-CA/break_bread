@@ -7,7 +7,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 15,
+      length: 1,
       child: new Scaffold(
         body: TabBarView(
           children: [
