@@ -44,6 +44,7 @@ class AuthService{
         email: googleUser.email,
         name: googleUser.displayName??"",
         profilePicURL: googleUser.photoUrl??"",
+        billsID: List.empty(growable: true),
       );
       DatabaseService dbService = DatabaseService(userEmail:googleUser.email);
       await DatabaseService(userEmail:userData.email).setUser(userData);

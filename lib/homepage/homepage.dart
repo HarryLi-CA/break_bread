@@ -5,19 +5,33 @@ import 'package:break_bread/profile/sampledata.dart';
 import 'package:break_bread/profile/slider.dart';
 import 'package:break_bread/profile/textediting.dart';
 import 'package:flutter/material.dart';
+
+import 'package:break_bread/bill.dart';
+import 'package:break_bread/models/userData.dart';
 import 'package:break_bread/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:break_bread/homepage/info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../services/databaseService.dart';
 
 import '../profile/numberediting.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late DatabaseService dbService;
+  
+  String userEmail;
+   HomePage(this.userEmail){
+    dbService = DatabaseService(userEmail: userEmail);
+  }
 
   @override
   State<HomePage> createState() => _HomePage();
+  
 }
 
 class Info {
@@ -43,77 +57,6 @@ class _HomePage extends State<HomePage> {
   AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    //object
-    List<Info> bills = List.empty(growable: true);
-    bills.add(Info(
-      resturant: 'Dim Sum',
-      cost: 1475,
-      due: 'March 7th',
-      link1:
-          'https://media.istockphoto.com/id/1300512215/photo/headshot-portrait-of-smiling-ethnic-businessman-in-office.jpg?b=1&s=170667a&w=0&k=20&c=TXCiY7rYEvIBd6ibj2bE-VbJu0rRGy3MlHwxt2LHt9w=',
-      link2:
-          'https://www.shutterstock.com/image-photo/profile-picture-smiling-millennial-asian-260nw-1836020740.jpg',
-      link3:
-          'https://media.istockphoto.com/id/174818443/photo/pensive-teenager.jpg?s=612x612&w=0&k=20&c=inTDBpnylnBKkN6AthkzEiYT4kEUzDPQLupQG2_83zA=',
-      link4:
-          'https://t4.ftcdn.net/jpg/04/44/53/99/360_F_444539901_2GSnvmTX14LELJ6edPudUsarbcytOEgj.jpg',
-    ));
-    bills.add(Info(
-      resturant: 'Dim Sum',
-      cost: 475,
-      due: 'March 7th',
-      link1:
-          'https://media.istockphoto.com/id/1300512215/photo/headshot-portrait-of-smiling-ethnic-businessman-in-office.jpg?b=1&s=170667a&w=0&k=20&c=TXCiY7rYEvIBd6ibj2bE-VbJu0rRGy3MlHwxt2LHt9w=',
-      link2:
-          'https://www.shutterstock.com/image-photo/profile-picture-smiling-millennial-asian-260nw-1836020740.jpg',
-      link3:
-          'https://media.istockphoto.com/id/174818443/photo/pensive-teenager.jpg?s=612x612&w=0&k=20&c=inTDBpnylnBKkN6AthkzEiYT4kEUzDPQLupQG2_83zA=',
-      link4:
-          'https://t4.ftcdn.net/jpg/04/44/53/99/360_F_444539901_2GSnvmTX14LELJ6edPudUsarbcytOEgj.jpg',
-    ));
-    bills.add(Info(
-      resturant: 'Dim Sum',
-      cost: 475,
-      due: 'March 7th',
-      link1:
-          'https://media.istockphoto.com/id/1300512215/photo/headshot-portrait-of-smiling-ethnic-businessman-in-office.jpg?b=1&s=170667a&w=0&k=20&c=TXCiY7rYEvIBd6ibj2bE-VbJu0rRGy3MlHwxt2LHt9w=',
-      link2:
-          'https://www.shutterstock.com/image-photo/profile-picture-smiling-millennial-asian-260nw-1836020740.jpg',
-      link3:
-          'https://media.istockphoto.com/id/174818443/photo/pensive-teenager.jpg?s=612x612&w=0&k=20&c=inTDBpnylnBKkN6AthkzEiYT4kEUzDPQLupQG2_83zA=',
-      link4:
-          'https://t4.ftcdn.net/jpg/04/44/53/99/360_F_444539901_2GSnvmTX14LELJ6edPudUsarbcytOEgj.jpg',
-    ));
-    bills.add(Info(
-      resturant: 'Dim Sum',
-      cost: 475,
-      due: 'March 7th',
-      link1:
-          'https://media.istockphoto.com/id/1300512215/photo/headshot-portrait-of-smiling-ethnic-businessman-in-office.jpg?b=1&s=170667a&w=0&k=20&c=TXCiY7rYEvIBd6ibj2bE-VbJu0rRGy3MlHwxt2LHt9w=',
-      link2:
-          'https://www.shutterstock.com/image-photo/profile-picture-smiling-millennial-asian-260nw-1836020740.jpg',
-      link3:
-          'https://media.istockphoto.com/id/174818443/photo/pensive-teenager.jpg?s=612x612&w=0&k=20&c=inTDBpnylnBKkN6AthkzEiYT4kEUzDPQLupQG2_83zA=',
-      link4:
-          'https://t4.ftcdn.net/jpg/04/44/53/99/360_F_444539901_2GSnvmTX14LELJ6edPudUsarbcytOEgj.jpg',
-    ));
-    bills.add(Info(
-      resturant: 'Dim Sum',
-      cost: 475,
-      due: 'March 7th',
-      link1:
-          'https://media.istockphoto.com/id/1300512215/photo/headshot-portrait-of-smiling-ethnic-businessman-in-office.jpg?b=1&s=170667a&w=0&k=20&c=TXCiY7rYEvIBd6ibj2bE-VbJu0rRGy3MlHwxt2LHt9w=',
-      link2:
-          'https://www.shutterstock.com/image-photo/profile-picture-smiling-millennial-asian-260nw-1836020740.jpg',
-      link3:
-          'https://media.istockphoto.com/id/174818443/photo/pensive-teenager.jpg?s=612x612&w=0&k=20&c=inTDBpnylnBKkN6AthkzEiYT4kEUzDPQLupQG2_83zA=',
-      link4:
-          'https://t4.ftcdn.net/jpg/04/44/53/99/360_F_444539901_2GSnvmTX14LELJ6edPudUsarbcytOEgj.jpg',
-    ));
-    int total = 0;
-    for (int i = 0; i < bills.length; i++) {
-      total += bills.elementAt(i).cost;
-    }
     //ADD MATH FUNCTION TO SUM UP BILL TOTALS
 
     return Scaffold(
@@ -184,13 +127,6 @@ class _HomePage extends State<HomePage> {
                       color: Color.fromARGB(255, 235, 214, 191)),
                 ),
                 SizedBox(height: 10),
-                Text(
-                  ('Total: \$' +
-                      ((total ~/ 100).toString()) +
-                      "." +
-                      ((total % 100).toString())),
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-                ),
               ])),
         ]),
 
@@ -206,25 +142,73 @@ class _HomePage extends State<HomePage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(0),
         //width: double.maxFinite,
-        child: ListView.separated(
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(20),
-            itemCount: bills.length,
-            separatorBuilder: ((context, index) {
-              return const Divider(
-                indent: 10,
-                endIndent: 10,
-              );
-            }),
-            itemBuilder: (context, index) {
-              return postComponent(bills.elementAt(index));
-            }),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Users').doc(widget.userEmail).snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Text("Loading");
+            }
+            UserData userData = UserData.fromJson(snapshot.data!.data()!);
+            return  ListView.separated(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(20),
+              itemCount: userData.billsID.length,
+              separatorBuilder: ((context, index) {
+                return const Divider(
+                  indent: 10,
+                  endIndent: 10,
+                );
+              }),
+              itemBuilder: (context, index) {
+                return StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('Bills').doc(userData.billsID.elementAt(index)).snapshots(),
+                  builder: (context, snapshot){
+                      if (!snapshot.hasData) {
+                        return Text("Loading");
+                      }
+                    Bill bill = Bill.fromJson(snapshot.data!.data()!);
+                    List<Widget> images = List.empty(growable: true);
+                    for (int i = 0; i < 4; i++) {
+                      if(i >= bill.emails.length){
+                        images.add(CircleAvatar(
+                              radius: 30.0,
+                              backgroundColor: Colors.transparent,
+                            )
+                          );
+                      }
+                      else{
+                      images.add(
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance.collection('Users').doc(bill.emails.elementAt(i)).snapshots(),
+                          builder: (context, snapshot){
+                                if (!snapshot.hasData) {
+                                  return Text("Loading");
+                                }
+                            UserData billUserData = UserData.fromJson(snapshot.data!.data()!);
+                            return CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage: NetworkImage(
+                                billUserData.profilePicURL,
+                              ),
+                              backgroundColor: Colors.transparent,
+                            );
+                          }
+                        )
+                      );
+                      }
+                    }
+                    return postComponent(bill, index, images, userData.billsID.elementAt(index));
+                }); 
+              }
+            );
+          },
+        ),
       ),
       backgroundColor: Color.fromARGB(255, 228, 194, 155),
     );
   }
 
-  postComponent(Info info) {
+  postComponent(Bill bill, int index, List<Widget> images, String billID) {
     return InkWell(
       child: Container(
         height: 220,
@@ -273,7 +257,7 @@ class _HomePage extends State<HomePage> {
                       /** */
 
                       Text(
-                        info.resturant,
+                        bill.restaurant,
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 20),
                       ),
@@ -281,9 +265,9 @@ class _HomePage extends State<HomePage> {
                       //+ "." + (info.total%100).toString()
                       Text(
                         "Cost: \$" +
-                            (info.cost ~/ 100).toString() +
+                            (bill.cost ~/ 100).toString() +
                             "." +
-                            (info.cost % 100).toString(),
+                            (bill.cost % 100).toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 18),
                       ),
@@ -294,7 +278,7 @@ class _HomePage extends State<HomePage> {
                       ),
                       SizedBox(height: 22),
                       Text(
-                        "Due: " + info.due,
+                        "Due: " + bill.dueDate,
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 13),
                       ),
@@ -337,19 +321,9 @@ class _HomePage extends State<HomePage> {
                       const SizedBox(height: 14),
                       Row(
                         children: [
-                          CircleAvatar(
-                            radius: 30.0,
-                            backgroundImage: NetworkImage(info.link1),
-                            backgroundColor: Colors.transparent,
-                          ),
+                          images.elementAt(0),
                           SizedBox(width: 15),
-                          CircleAvatar(
-                            radius: 30.0,
-                            backgroundImage: NetworkImage(
-                              info.link2,
-                            ),
-                            backgroundColor: Colors.transparent,
-                          ),
+                          images.elementAt(1),
                         ],
                       ),
 
@@ -357,21 +331,9 @@ class _HomePage extends State<HomePage> {
 
                       Row(
                         children: [
-                          CircleAvatar(
-                            radius: 30.0,
-                            backgroundImage: NetworkImage(
-                              info.link3,
-                            ),
-                            backgroundColor: Colors.transparent,
-                          ),
+                          images.elementAt(2),
                           SizedBox(width: 15),
-                          CircleAvatar(
-                            radius: 30.0,
-                            backgroundImage: NetworkImage(
-                              info.link4,
-                            ),
-                            backgroundColor: Colors.transparent,
-                          ),
+                          images.elementAt(3),
                         ],
                       ),
                     ],
@@ -385,12 +347,12 @@ class _HomePage extends State<HomePage> {
                   child: CircleAvatar(
                     backgroundColor: Color.fromARGB(255, 69, 44, 25),
                     radius: 13,
-                    child: Icon(Icons.close),
+                    child: Icon(Icons.check),
                   ),
                   //Icon(Icons.close_outlined),
                   onTap: () async {
                     //delete posts function
-                    _auth.signOut();
+                    widget.dbService.removeBill(billID);
                   },
                 )),
           ],

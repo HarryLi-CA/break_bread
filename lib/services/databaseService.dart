@@ -36,11 +36,11 @@ class DatabaseService{
 
   Future removeBill(String billId)async{
     dynamic data = (await billCollection.doc(billId).get()).data();
-    Bill bill = Bill.fromJson(data);
+    Bill bill = Bill.fromJson(data); //TODO make it check each user to see if the transaction finished
     if(bill.emails.isEmpty){
       await billCollection.doc(billId).delete();
     }
-    return await billCollection.doc(userEmail).update({
+    return await usersCollection.doc(userEmail).update({
       "billsID": FieldValue.arrayRemove([billId])
     });
   }
