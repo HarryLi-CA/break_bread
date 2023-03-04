@@ -30,6 +30,7 @@ class _BodyState extends State<Body> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+
               const Text(
                 'Welcome to BreakingBread!',
                 style: TextStyle(
@@ -51,6 +52,7 @@ class _BodyState extends State<Body> {
                   ),
               //LOGO HERE or above the welcome?
               //Image(image: image)
+              /*
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
@@ -88,6 +90,7 @@ class _BodyState extends State<Body> {
                       ),
                     )),
               ),
+              */
               const SizedBox(height: 25),
 
               ElevatedButton(
