@@ -52,26 +52,27 @@ class _HomePage extends State<HomePage> {
     int total = 500; //ADD MATH FUNCTION TO SUM UP BILL TOTALS
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.food_bank), //temp icon need to change
-        title: Text('Breaking Bread', style: TextStyle(fontSize: 20)),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
-          ),
-        ),
-        flexibleSpace: Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(22), color: Colors.brown),
-          child: Text(
-            '${total}',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
+      appBar: 
+      AppBar(
+      
+      backgroundColor: Color.fromARGB(255, 162, 96, 20),
+      toolbarHeight:MediaQuery.of(context).size.height/5,
+      title: Text('Break Bread', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+      //Container(),
+      //NEED TO ADD TOTAL BALANCE BELOW 
+      // Text('Total balance: '+ total.toString()),
+      shape: RoundedRectangleBorder(
+      borderRadius: new BorderRadius.vertical(
+      bottom: new Radius.elliptical(200, 56.0),
       ),
+      
+    ),
+    
+
+
+  ),
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(0),
         width: double.maxFinite,
         child: ListView.separated(
           shrinkWrap: true,
@@ -89,12 +90,15 @@ class _HomePage extends State<HomePage> {
             }),
       ),
       backgroundColor: Color.fromARGB(255, 228, 194, 155),
+
+      
     );
   }
 
   postComponent(Info info) {
     return InkWell(
       child: Container(
+        
         height:220,
         padding: const EdgeInsets.all(14),
         margin: const EdgeInsets.only(bottom: 18),
