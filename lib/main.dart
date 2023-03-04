@@ -14,6 +14,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MainApp());
 }
+const isMac = false;
 
 class MainApp extends StatelessWidget {
   @override
@@ -27,7 +28,7 @@ class MainApp extends StatelessWidget {
           home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, snapshot) {
-            if(snapshot.hasData){
+            if(snapshot.hasData|| isMac){
               return HomePage();
             }
             return LoginScreen();

@@ -1,5 +1,7 @@
 
+import 'package:break_bread/models/userData.dart';
 import 'package:break_bread/models/userUid.dart';
+import 'package:break_bread/services/databaseService.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +40,13 @@ class AuthService{
       prefs.setString('name', googleUser.displayName??"");
       prefs.setString('email', googleUser.email);
       prefs.setString('userImageURL', googleUser.photoUrl??"");
-      //await DatabaseService(uid: authresult.user.uid,email: googleUser.email).updateStudent(name[0],name[1],10,'ADMIN');
+      UserData userData = UserData(
+        email: googleUser.email,
+        name: googleUser.displayName??"",
+        profilePicURL: googleUser.photoUrl??"",
+      );
+      DatabaseService dbService = DatabaseService(userEmail:googleUser.email);
+      await DatabaseService(userEmail:userData.email).setUser(userData);
       return _userFromFirebaseUser(authresult.user);
     } 
     catch(e){
